@@ -425,13 +425,40 @@ pub const INIT_FLAG = enum(u32) {
 };
 pub const SDL_WINDOW_RESIZEABLE_FLAG = 0x0002;
 pub extern "SDL3" fn SDL_Init(flags: INIT_FLAG) callconv(.C) c_int;
+pub extern "SDL3" fn SDL_Quit() callconv(.C) void;
+
 pub extern "SDL3" fn SDL_CreateWindow(title: [*c]const u8, w: c_int, h: c_int, flags: u64) callconv(.C) [*c]SDL_Window;
 pub extern "SDL3" fn SDL_CreateRenderer(window: [*c]SDL_Window, name: [*c]const u8) callconv(.C) [*c]SDL_Renderer;
 pub extern "SDL3" fn SDL_RenderClear(renderer: [*c]SDL_Renderer) callconv(.C) void;
 pub extern "SDL3" fn SDL_SetRenderDrawColor(renderer: [*c]SDL_Renderer, r: u8, g: u8, b: u8, a: u8) callconv(.C) void;
 pub extern "SDL3" fn SDL_RenderPresent(renderer: [*c]SDL_Renderer) callconv(.C) void;
+pub const SDL_Rect = extern struct {
+    x: c_int,
+    y: c_int,
+    w: c_int,
+    h: c_int,
+};
+pub const SDL_FRect = extern struct {
+    x: f32,
+    y: f32,
+    w: f32,
+    h: f32,
+    pub fn render(self: SDL_FRect, renderer: [*c]SDL_Renderer) void {
+        SDL_RenderRect(renderer, &self);
+    }
+    pub fn fill(self: SDL_FRect, renderer: [*c]SDL_Renderer) void {
+        SDL_RenderFillRect(renderer, @constCast(&self));
+    }
+};
+pub extern "SDL3" fn SDL_RenderRect(renderer: [*c]SDL_Renderer, rect: [*c]SDL_Rect) callconv(.C) void;
+pub extern "SDL3" fn SDL_RenderFillRect(renderer: [*c]SDL_Renderer, rect: *SDL_FRect) void;
+
 pub extern "SDL3" fn SDL_DestroyRenderer(renderer: [*c]SDL_Renderer) callconv(.C) void;
 pub extern "SDL3" fn SDL_DestroyWindow(window: [*c]SDL_Window) callconv(.C) void;
+pub extern "SDL3" fn SDL_SetRenderDrawBlendMode(renderer: [*c]SDL_Renderer, mode: u32) callconv(.C) void;
+
 pub extern "SDL3" fn SDL_PollEvent(event: [*c]SDL_Event) callconv(.C) c_int;
 pub extern "SDL3" fn SDL_Delay(ms: c_int) callconv(.C) void;
 pub extern "SDL3" fn SDL_DelayPrecise(ns: u64) callconv(.C) void;
+pub extern "SDL3" fn SDL_GetTicks() callconv(.C) u64;
+pub extern "SDL3" fn SDL_GetTicksNS() callconv(.C) u64;
