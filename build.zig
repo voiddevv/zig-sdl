@@ -28,10 +28,12 @@ pub fn build(b: *std.Build) void {
     exe.linkLibC();
     exe.addLibraryPath(b.path("vendor/lib/"));
     exe.addIncludePath(b.path("vendor/include/"));
-    exe.linkSystemLibrary("sdl3");
     if (target.result.isDarwin()) {
         exe.linkFramework("SDL3");
+    } else {
+        exe.linkSystemLibrary("SDL3");
     }
+
     // copy dll
     b.installFile("vendor/bin/SDL3.dll", "bin/SDL3.dll");
 
