@@ -16,7 +16,7 @@ pub fn build(b: *std.Build) void {
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall. Here we do not
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{
-        .preferred_optimize_mode = .ReleaseSmall,
+        .preferred_optimize_mode = .ReleaseFast,
     });
     const exe = b.addExecutable(.{
         .name = "sdl3",
@@ -29,6 +29,9 @@ pub fn build(b: *std.Build) void {
     exe.addLibraryPath(b.path("vendor/lib/"));
     exe.addIncludePath(b.path("vendor/include/"));
     exe.linkSystemLibrary("sdl3");
+    if (target.result.isDarwin()) {
+        exe.linkFramework("SDL3");
+    }
     // copy dll
     b.installFile("vendor/bin/SDL3.dll", "bin/SDL3.dll");
 

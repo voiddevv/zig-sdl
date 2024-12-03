@@ -7,7 +7,7 @@ pub fn main() !void {
     _ = sdl3.SDL_Init(sdl3.INIT_FLAG.EVERYTHING);
     defer sdl3.SDL_Quit();
     const window = sdl3.SDL_CreateWindow("Hello, world!", 800, 600, 32);
-    const renderer = sdl3.SDL_CreateRenderer(window, "direct3d11");
+    const renderer = sdl3.SDL_CreateRenderer(window, "software");
     defer sdl3.SDL_DestroyRenderer(renderer);
     defer sdl3.SDL_DestroyWindow(window);
     var run: i32 = 1;
@@ -20,30 +20,30 @@ pub fn main() !void {
                 break;
             }
         }
-        var rect = sdl3.SDL_FRect{ .x = 0, .y = 0, .w = 114, .h = 600 };
 
+        var rect = sdl3.SDL_FRect{ .x = 0, .y = 0, .w = 114.33, .h = 600 };
         sdl3.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         sdl3.SDL_RenderClear(renderer);
 
         sdl3.SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         rect.fill(renderer);
         sdl3.SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-        rect.x += 114;
+        rect.x += 114.33;
         rect.fill(renderer);
         sdl3.SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-        rect.x += 114;
+        rect.x += 114.33;
         rect.fill(renderer);
         sdl3.SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-        rect.x += 114;
+        rect.x += 114.33;
         rect.fill(renderer);
         sdl3.SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-        rect.x += 114;
+        rect.x += 114.33;
         rect.fill(renderer);
         sdl3.SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
-        rect.x += 114;
+        rect.x += 114.33;
         rect.fill(renderer);
         sdl3.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        rect.x += 114;
+        rect.x += 114.33;
         rect.fill(renderer);
 
         sdl3.SDL_RenderPresent(renderer);
@@ -56,6 +56,6 @@ pub fn main() !void {
             time_offset = sdl3.SDL_GetTicksNS();
         }
         const delta = sdl3.SDL_GetTicksNS() - ticks;
-        sdl3.SDL_DelayPrecise(8333333 - delta);
+        sdl3.SDL_DelayPrecise(16666667 - delta);
     }
 }
